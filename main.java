@@ -12,7 +12,7 @@ import java.sql.SQLOutput;
 
 public class main {
     public static void main(String [] args) throws IOException {
-        HttpServer server = HttpServer.create(new InetSocketAddress("SMSLaptop",80),0);
+        HttpServer server = HttpServer.create(new InetSocketAddress("Smslaptop",80),0);
         server.createContext("/",new MyHandler());
         server.setExecutor(null);
         server.start();
