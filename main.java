@@ -49,7 +49,7 @@ public class main {
             System.out.println("Request Method: " + exchange.getRequestMethod());
             StringBuilder htmlResponse = new StringBuilder();
             try{
-                File index = new File("C:\\Users\\Smspaner\\Downloads\\PersonalWebServer\\index.html");
+                File index = new File("C:\\Users\\server\\webserver\\index.html");
                 BufferedReader br = new BufferedReader(new FileReader(index));
                 String line;
                 while ((line = br.readLine())!=null){
