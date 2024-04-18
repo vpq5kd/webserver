@@ -4,22 +4,42 @@ import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.HttpsServer;
 
 import java.io.*;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.sql.SQLOutput;
 
 public class main {
     public static void main(String [] args) throws IOException {
-        HttpServer server = HttpServer.create(new InetSocketAddress("Smslaptop",80),0);
+        HttpServer server = HttpServer.create(new InetSocketAddress("smsdesktop",80),0);
         server.createContext("/",new MyHandler());
         server.setExecutor(null);
         server.start();
         InetSocketAddress serverAddress = (InetSocketAddress) server.getAddress();
         InetAddress address = serverAddress.getAddress();
         String addressString = address.getHostAddress();
-        System.out.println("Server started at address: " + addressString + " and port " + serverAddress.getPort());
+        System.out.println("Server started at local address: " + addressString + " and port " + serverAddress.getPort());
+        try {
+            String remoteIp = new getRemoteIp().getIp();
+            System.out.println("Remote clients use http://" + remoteIp);
+        }catch (Exception e){
+            System.out.println("couldn't retrieve the remote IP address either because the server is down or because checkip.amazonaws.com is down.");
+        }
+    }
+    static class getRemoteIp{
+        public String getIp(){
+            String ip;
+
+            try {
+                URL whatismyip = new URL("http://checkip.amazonaws.com");
+                BufferedReader br = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
+                ip = br.readLine();
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return ip;
+
+        }
     }
     static class MyHandler implements HttpHandler {
         @Override
